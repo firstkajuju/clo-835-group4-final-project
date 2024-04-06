@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Get Employee Information {{ group_name }}</title>
+    <style>
+        body {
+            font-family: avenir;
+            background-image: url('{{ background_image }}');
+            background-size: cover; /* Ensure the background covers the entire page */
+            text-align: center; /* Center content */
+        }
+        h1, h2 {
+            color: DodgerBlue;
+        }
+        input[type=number] {
+            height: 25px;
+            font-size: 14pt;
+        }
+        button {
+            background: grey;
+            height: 45px;
+            width: 200px;
+            color: white;
+            font-style: oblique;
+        }
+    </style>
+</head>
+<body>
+    <h1>Employee Information {{ group_name }}</h1>
+    <form action="/fetchdata" autocomplete="on" method="POST">
+        <h2 style="color: grey">Enter Employee ID</h2>
+        Employee ID:<br> <input type="number" name="emp_id" autofocus size="40"><br><br>
+        <button type="submit">FETCH INFO</button><br><br>
+    </form>
+</body>
+</html>
