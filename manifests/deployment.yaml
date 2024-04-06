@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: application
+  namespace: final
+  labels:
+    app: employees
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: employees
+  template:
+    metadata:
+      labels:
+        app: employees
+    spec:
+      serviceAccountName: clo835
+      containers:
+        - name: application-container
+          image: 469755524120.dkr.ecr.us-east-1.amazonaws.com/assigment-dev-app:v2
+          imagePullPolicy: Always
+          env:
+            - name: DBPWD
+              valueFrom:
+                secretKeyRef:
+                  name: secrets
+                  key: MYSQL_ROOT_PASSWORD
+            - name: DBHOST
+              valueFrom:
+                secretKeyRef:
+                  name: secrets
+                  key: DBHOST
+            - name: DBUSER
+              valueFrom:
+                secretKeyRef:
+                  name: secrets
+                  key: DBUSER
+            - name: DBPORT
+              value: "3306"
+          envFrom:
+            - configMapRef:
+                name: group4
+          ports:
+            - containerPort: 81
+          resources:
+            limits:
+              cpu: "0.5"
+            requests:
+              cpu: "0.5"
+
