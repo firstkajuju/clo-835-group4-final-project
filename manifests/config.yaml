@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: group4
+  namespace: final
+data:
+  BACKGROUND_IMAGE: "https://finalbrojectmoishtor.s3.amazonaws.com/wallpaperflare.com_wallpaper.jpg"
+  GROUP_NAME: "GROUP4"
+
