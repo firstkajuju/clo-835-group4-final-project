@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mysql
+  namespace: final
+  labels:
+    app: mysql
+
+spec:
+  selector:
+    matchLabels:
+      app: mysql
+
+    spec:
+      containers:
+        - name: database-container
+          image: 469755524120.dkr.ecr.us-east-1.amazonaws.com/assigment-dev-mysql:v1.0
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: secrets
+                  key: MYSQL_ROOT_PASSWORD
+          ports:
+            - containerPort: 3306
+          volumeMounts:
+            - name: mysql-data
+              mountPath: /var/lib/mysql
+
