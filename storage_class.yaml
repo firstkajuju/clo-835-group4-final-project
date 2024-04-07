@@ -4,3 +4,8 @@ metadata:
   name: gp2-csi
   annotations:
     storageclass.kubernetes.io/is-default-class: "false"
+provisioner: ebs.csi.aws.com
+parameters:
+  fsType: ext4
+  type: gp2
+volumeBindingMode: WaitForFirstConsumer
