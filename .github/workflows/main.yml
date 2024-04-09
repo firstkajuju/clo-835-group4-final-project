@@ -1,0 +1,60 @@
+name: Deploy to ECR
+
+on: 
+  push:
+    branches: [docker-build]
+
+jobs:
+  build:
+    name: Build Images
+    runs-on: ubuntu-latest
+
+    steps:
+    
+    - name: Check out code
+      uses: actions/checkout@v2
+
+    - name: Login to Amazon ECR
+      id: login-ecr
+      uses: aws-actions/amazon-ecr-login@v1
+      env:
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        AWS_SESSION_TOKEN: ${{ secrets.AWS_SESSION_TOKEN }}
+        AWS_REGION: us-east-1
+
+    - name: Build and push mysql image to Amazon ECR
+      env:
+        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+        ECR_REPOSITORY: assigment-dev-mysql
+        IMAGE_TAG: v1.0
+      run: |
+        
+        cd dockerfile
+        # Docker build for MySQL image
+        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG -f Dockerfile_mysql .
+        # Docker push to ECR
+        docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+        
+    - name: Build, tag, and push app image to Amazon ECR
+      env:
+        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+        ECR_REPOSITORY: assignment-dev-app
+        IMAGE_TAG: v1.2
+        DBHOST: ${{ secrets.DBHOST }}
+        DBPORT: ${{ secrets.DBPORT }}
+        DBUSER: ${{ secrets.DBUSER }}
+        DBPWD: ${{ secrets.DBPWD }}
+        BACKGROUND_IMAGE: 'https://finalbrojectmoishtor.s3.amazonaws.com/wallpaperflare.com_wallpaper.jpg'
+      run: |
+        
+        cd dockerfile
+        # Docker build for app image
+        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG -f Dockerfile \
+          --build-arg DBHOST=$DBHOST \
+          --build-arg DBPORT=$DBPORT \
+          --build-arg DBUSER=$DBUSER \
+          --build-arg DBPWD=$DBPWD \
+          --build-arg BACKGROUND_IMAGE=$BACKGROUND_IMAGE .
+        # Docker push to ECR
+        docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
