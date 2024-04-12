@@ -4,7 +4,11 @@
 	<title>Employee Information {{group_name}}</title>
 </head>
 <center>
-	<font color="black" size="5" style="font-family: avenir"
+	<font color="black" size="5" style="font-family: avenir">
+
+		<h1 style="color: DodgerBlue">Employee Information {{ group_name }}</h1>
+
+		<body style="background-image: url('{{ background_image }}');" >
 
 			<form>
 
@@ -12,9 +16,9 @@
 
 			  		Employee ID:<br> {{ id }} <br><br>
 
-			  		First Name:<br> {{ f-name }} <br><br>
+			  		First Name:<br> {{ fname }} <br><br>
 
-			  		Last Name:<br> {{ l-name }} <br><br>
+			  		Last Name:<br> {{ lname }} <br><br>
 
 			  		Primary Interest:<br> {{ interest }} <br><br>
 
