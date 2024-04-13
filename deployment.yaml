@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: database-container
-          image: 469755524120.dkr.ecr.us-east-1.amazonaws.com/assigment-dev-mysql:v1.0
+          image: 673896343304.dkr.ecr.us-east-1.amazonaws.com/project-mysql:v1.0
           env:
             - name: MYSQL_ROOT_PASSWORD
               valueFrom:
