@@ -5,7 +5,6 @@ metadata:
   namespace: final
   labels:
     app: mysql
-
 spec:
   selector:
     matchLabels:
@@ -17,7 +16,11 @@ spec:
     spec:
       containers:
         - name: database-container
+<<<<<<< HEAD
           image: 673896343304.dkr.ecr.us-east-1.amazonaws.com/project-mysql:v1.0
+=======
+          image: 508327803984.dkr.ecr.us-east-1.amazonaws.com/final:mydb-v1.0
+>>>>>>> a78a424 (add imagepull secret)
           env:
             - name: MYSQL_ROOT_PASSWORD
               valueFrom:
@@ -29,7 +32,8 @@ spec:
           volumeMounts:
             - name: mysql-data
               mountPath: /var/lib/mysql
-      
+      imagePullSecrets:
+        - name: final-secret 
       volumes:
         - name: mysql-data
           persistentVolumeClaim:
