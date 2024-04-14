@@ -16,6 +16,23 @@ spec:
         app: employees
     spec:
       serviceAccountName: clo835
+initContainers:
+        - name: fetch-image
+          image: appropriate/curl
+          command: ["/bin/sh", "-c"]
+          args:
+            - >
+              echo "Fetching background image...";
+              curl -o /usr/src/app/static/background.jpg -L $(cat /etc/config/BACKGROUND_IMAGE);
+          volumeMounts:
+            - name: config-volume
+              mountPath: /etc/config
+            - name: app-static
+              mountPath: /usr/src/app/static
+      containers:
+        - name: application-container
+          image: 469755524120.dkr.ecr.us-east-1.amazonaws.com/assigment-dev-app:v2
+          imagePullPolicy: Always
       containers:
         - name: application-container
           image: 469755524120.dkr.ecr.us-east-1.amazonaws.com/assigment-dev-app:v2
