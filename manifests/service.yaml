@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: employees-nodeport
+  namespace: final
+spec:
+  selector:
+    app: employees
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 81
+      nodePort: 30000
+  type: NodePort
+
